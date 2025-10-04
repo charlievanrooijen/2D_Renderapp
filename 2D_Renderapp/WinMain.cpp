@@ -1,16 +1,13 @@
 #include <windows.h>
 #include <string>
+#include "GameObject.h"
 
 int g_counter = 1;
 int g_screenWidth  = GetSystemMetrics(SM_CXSCREEN);
 int g_screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-int g_floorcord_left = 0;
-int g_floorcord_top = 300;
-int g_floorcord_right = 500;
-int g_floorcord_bottom = 500;
-
-
+RectangleObject g_floor;
+RectangleObject g_rect;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
@@ -22,6 +19,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         // Fill background with red recangle
         RECT rect;
         GetClientRect(hwnd, &rect);
+        
+
 
         HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
         FillRect(hdc, &rect, brush);
@@ -32,18 +31,20 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         std::wstring text = L"Counter: " + std::to_wstring(g_counter);
         TextOutW(hdc, 50, 50, text.c_str(), text.length());
         
-        int g_rect_left = 100;
-        int g_rect_top = 100 + g_counter;
-        int g_rect_right = 150;
-        int g_rect_bottom = 150 + g_counter;
         
-        if(g_rect_bottom < g_floorcord_top){
-            Rectangle(hdc, g_rect_left, g_rect_top, g_rect_right, g_rect_bottom);
+        if(!checkCollision(g_rect)){
+            g_rect.top += g_counter;
+            g_rect.bottom += g_counter;
+
+            drawRectangle(hdc, g_rect);
         }else{
-            Rectangle(hdc, g_rect_left, g_floorcord_top - 50 ,g_rect_right , g_floorcord_top);
+            g_rect.top = g_floor.top - 50;
+            g_rect.bottom = g_floor.top;
+            
+            drawRectangle(hdc, g_rect);
         }
         
-        Rectangle(hdc, g_floorcord_left, g_floorcord_top, g_floorcord_right, g_floorcord_bottom);
+        drawRectangle(hdc, g_floor);
 
         EndPaint(hwnd, &ps);
         return 0;
@@ -63,6 +64,20 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 }
 
 int WINAPI WinMain(HINSTANCE InstanceId, HINSTANCE, LPSTR, int nCmdShow) {
+    g_floor.id = 0;
+    g_floor.left = 0;
+    g_floor.top = 300;  
+    g_floor.right = 500;
+    g_floor.bottom = 500;
+    addRectangle(g_floor);
+
+    g_rect.id = 1;
+    g_rect.left = 100;
+    g_rect.top = 100;
+    g_rect.right = 150;
+    g_rect.bottom = 150;
+    addRectangle(g_rect);
+
     const char CLASS_NAME[] = "MyWindowClass";
 
     WNDCLASS wc = {};
@@ -88,7 +103,7 @@ int WINAPI WinMain(HINSTANCE InstanceId, HINSTANCE, LPSTR, int nCmdShow) {
 
     ShowWindow(hwnd, nCmdShow);
 
-    SetTimer(hwnd, 1, 10, NULL);
+    SetTimer(hwnd, 1, 50, NULL);
 
     MSG msg = {};
     while (GetMessage(&msg, NULL, 0, 0)) {
