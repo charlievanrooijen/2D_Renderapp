@@ -10,7 +10,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hwnd, &ps);
 
-        std::wstring text = L"Value: " + std::to_wstring(g_counter);
+        std::wstring text = L"Counter: " + std::to_wstring(g_counter);
 
         TextOutW(hdc, 50, 50, text.c_str(), text.length());
 

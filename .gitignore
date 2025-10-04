@@ -1,0 +1,17 @@
+# Ignore VS Code settings
+.vscode/
+
+# Ignore build outputs
+*.exe
+*.obj
+*.o
+*.pdb
+*.dll
+
+# Ignore temporary files
+*.log
+*.tmp
+
+# Ignore Windows system files
+Thumbs.db
+Desktop.ini

@@ -8,14 +8,14 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "C:\\Users\\Charlie\\Documents\\2D_Renderapp\\WinMain.cpp",
-                "C:\\Users\\Charlie\\Documents\\2D_Renderapp\\Tools\\Tools.cpp",
+                "C:\\Users\\Charlie\\Documents\\2D_Renderapp\\2D_Renderapp\\WinMain.cpp",
+                "C:\\Users\\Charlie\\Documents\\2D_Renderapp\\2D_Renderapp\\Tools\\Tools.cpp",
                 "-o",
-                "C:\\Users\\Charlie\\Documents\\2D_Renderapp\\WinMain.exe",
+                "C:\\Users\\Charlie\\Documents\\2D_Renderapp\\2D_Renderapp\\WinMain.exe",
                 "-lgdi32"
             ],
             "options": {
-                "cwd": "C:\\Users\\Charlie\\Documents\\2D_Renderapp"
+                "cwd": "C:\\Users\\Charlie\\Documents\\2D_Renderapp\\2D_Renderapp"
             },
             "problemMatcher": [
                 "$gcc"

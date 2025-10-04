@@ -1,3 +1,5 @@
-char[] toString() {
-    
+#include <string>
+
+std::string toString() {
+	return "";
 }
