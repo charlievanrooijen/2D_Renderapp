@@ -1,5 +1,5 @@
 #include <string>
 
-std::string toString() {
-	return "";
+void someUtilityFunction() {
+    // Example utility function
 }

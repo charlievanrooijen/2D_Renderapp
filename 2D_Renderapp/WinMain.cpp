@@ -9,13 +9,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     case WM_PAINT: {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hwnd, &ps);
-
         std::wstring text = L"Counter: " + std::to_wstring(g_counter);
-
         TextOutW(hdc, 50, 50, text.c_str(), text.length());
-
         EndPaint(hwnd, &ps);
-
         return 0;
     }
 
