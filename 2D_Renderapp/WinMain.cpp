@@ -5,7 +5,7 @@ int g_counter = 1;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
-    
+
     case WM_PAINT: {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hwnd, &ps);
@@ -14,6 +14,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         EndPaint(hwnd, &ps);
         return 0;
     }
+
+    case WM_TIMER:
+        g_counter++;
+        InvalidateRect(hwnd, NULL, TRUE);
+        return 0;
 
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -49,7 +54,8 @@ int WINAPI WinMain(HINSTANCE InstanceId, HINSTANCE, LPSTR, int nCmdShow) {
 
     ShowWindow(hwnd, nCmdShow);
 
-    // Main message loop
+    SetTimer(hwnd, 1, 100, NULL);
+
     MSG msg = {};
     while (GetMessage(&msg, NULL, 0, 0)) {
         TranslateMessage(&msg);
