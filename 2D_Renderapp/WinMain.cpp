@@ -1,22 +1,19 @@
 #include <windows.h>
 #include <string>
-using namespace std;
 
-int counter = 1;
+int g_counter = 1;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
     
     case WM_PAINT: {
         PAINTSTRUCT ps;
-        
         HDC hdc = BeginPaint(hwnd, &ps);
 
-        int strLen = 1;
+        std::wstring text = L"Value: " + std::to_wstring(g_counter);
 
-        std::wstring counterStr = std::to_wstring(counter++);
+        TextOutW(hdc, 50, 50, text.c_str(), text.length());
 
-        TextOutW(hdc, 50, 50, counterStr, strLen);
         EndPaint(hwnd, &ps);
 
         return 0;
