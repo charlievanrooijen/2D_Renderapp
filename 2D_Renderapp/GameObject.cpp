@@ -22,8 +22,7 @@ int createRectangle(int position[], int size[], COLORREF color, bool physicsObje
         rectArray = (RectangleObject*)realloc(rectArray, sizeof(RectangleObject) * (lenghtOfRectArray + 1));
         rectArray[lenghtOfRectArray] = rect;
     }
-    
-    rectArray[lenghtOfRectArray].id = lenghtOfRectArray;
+
     lenghtOfRectArray++;
     return rect.id;
 }
