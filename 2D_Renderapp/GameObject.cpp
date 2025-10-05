@@ -16,16 +16,17 @@ int createRectangle(int position[], int size[], COLORREF color, bool physicsObje
     rect.physicsObject = physicsObject;
 
     if (rectArray == nullptr) {
+        rect.id = lenghtOfRectArray;
         rectArray = (RectangleObject*)malloc(sizeof(RectangleObject));
         rectArray[lenghtOfRectArray] = rect;
         lenghtOfRectArray = 1;
     } else {
-        rectArray = (RectangleObject*)realloc(rectArray, sizeof(RectangleObject) * (lenghtOfRectArray));
+        rect.id = lenghtOfRectArray;
+        rectArray = (RectangleObject*)realloc(rectArray, sizeof(RectangleObject) * (lenghtOfRectArray + 1));
         rectArray[lenghtOfRectArray] = rect;
         lenghtOfRectArray++;
     }
     
-    rect.id = lenghtOfRectArray;
     return rect.id;
 }
 
