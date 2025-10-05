@@ -1,8 +1,6 @@
 #include "GameObject.h"
 #include <windows.h>
 
-
-
 RectangleObject *rectArray = nullptr;
 int lenghtOfRectArray = 0;
 
@@ -19,25 +17,26 @@ int createRectangle(int position[], int size[], COLORREF color, bool physicsObje
         rect.id = lenghtOfRectArray;
         rectArray = (RectangleObject*)malloc(sizeof(RectangleObject));
         rectArray[lenghtOfRectArray] = rect;
-        lenghtOfRectArray = 1;
     } else {
-        rect.id = lenghtOfRectArray;
+        rect.id = rectArray[lenghtOfRectArray - 1].id + 1;
         rectArray = (RectangleObject*)realloc(rectArray, sizeof(RectangleObject) * (lenghtOfRectArray + 1));
         rectArray[lenghtOfRectArray] = rect;
-        lenghtOfRectArray++;
     }
     
+    rectArray[lenghtOfRectArray].id = lenghtOfRectArray;
+    lenghtOfRectArray++;
     return rect.id;
 }
 
- RectangleObject getRectangleObjectById(int id) {
+RectangleObject getRectangleObjectById(int id) {
     for (int i = 0; i < lenghtOfRectArray; i++) {
         if (rectArray[i].id == id) {
             return rectArray[i];
         }
     }
-    // Return a default RectangleObject if not found
-    return RectangleObject();
+
+    RectangleObject empty = {0};
+    return empty;
 }
 
 void drawRectangle(HDC hdc, RectangleObject &rect) {

@@ -6,6 +6,7 @@ int g_counter = 1;
 int g_screenWidth = GetSystemMetrics(SM_CXSCREEN);
 int g_screenHeight = GetSystemMetrics(SM_CYSCREEN);
 int g_floorId = -1;
+int g_rectId = -1;
 
 RectangleObject g_floor;
 RectangleObject g_rect;
@@ -37,6 +38,23 @@ void drawFloorRectangle(HDC hdc) {
     }
 }
 
+void drawRect(HDC hdc) {
+    if (g_rectId == -1)
+    {
+        int rectPos[] = {500, 500};
+        int rectSize[] = {50, 50};
+        COLORREF color = RGB(0, 255, 255);
+        g_rectId = createRectangle(rectPos, rectSize, color, false);
+        RectangleObject rect = getRectangleObjectById(g_rectId);
+        drawRectangle(hdc, rect);
+    }
+    else
+    {
+        RectangleObject rect = getRectangleObjectById(g_rectId);
+        drawRectangle(hdc, rect);
+    }
+}
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
@@ -48,7 +66,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         HDC hdc = BeginPaint(hwnd, &ps);
 
         fillBackground(hwnd, hdc);
+
+        // Made 2 functions that do exactly the same just for testing
+        // TODO: clean up code so we don't have duplicate code
         drawFloorRectangle(hdc);
+        drawRect(hdc);
 
         EndPaint(hwnd, &ps);
         return 0;
