@@ -67,8 +67,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         fillBackground(hwnd, hdc);
 
-        // Made 2 functions that do exactly the same just for testing
-        // TODO: clean up code so we don't have duplicate code
+        // TODO: clean up code so we don't have this duplicate code
         drawFloorRectangle(hdc);
         drawRect(hdc);
 
