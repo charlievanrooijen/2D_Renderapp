@@ -1,26 +1,58 @@
 #include "GameObject.h"
 #include <windows.h>
-#include <vector>
 
-std::vector<RectangleObject> rectangles;
 
-void addRectangle(const RectangleObject& rect) {
-    rectangles.push_back(rect);
+
+RectangleObject *rectArray = nullptr;
+int lenghtOfRectArray = 0;
+
+int createRectangle(int position[], int size[], COLORREF color, bool physicsObject) {
+    RectangleObject rect; 
+    rect.position[0] = position[0];
+    rect.position[1] = position[1];
+    rect.size[0] = size[0];
+    rect.size[1] = size[1];
+    rect.color = color;
+    rect.physicsObject = physicsObject;
+
+    if (rectArray == nullptr) {
+        rectArray = (RectangleObject*)malloc(sizeof(RectangleObject));
+        rectArray[lenghtOfRectArray] = rect;
+        lenghtOfRectArray = 1;
+    } else {
+        rectArray = (RectangleObject*)realloc(rectArray, sizeof(RectangleObject) * (lenghtOfRectArray));
+        rectArray[lenghtOfRectArray] = rect;
+        lenghtOfRectArray++;
+    }
+    
+    rect.id = lenghtOfRectArray;
+    return rect.id;
 }
 
-bool checkCollision(const RectangleObject& newRect) {
-    for (const RectangleObject& rect : rectangles) {
-        if (newRect.id != rect.id &&  
-            newRect.right > rect.left &&
-            newRect.left < rect.right &&
-            newRect.bottom > rect.top &&
-            newRect.top < rect.bottom) {
-            return true;
+ RectangleObject getRectangleObjectById(int id) {
+    for (int i = 0; i < lenghtOfRectArray; i++) {
+        if (rectArray[i].id == id) {
+            return rectArray[i];
         }
     }
-    return false;
+    // Return a default RectangleObject if not found
+    return RectangleObject();
 }
 
-void drawRectangle(HDC hdc, const RectangleObject& rect) {
-    Rectangle(hdc, rect.left, rect.top, rect.right, rect.bottom);
+void drawRectangle(HDC hdc, RectangleObject &rect) {
+    HBRUSH brush = CreateSolidBrush(rect.color);
+    HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
+
+    Rectangle(hdc, rect.position[0], 
+              rect.position[1], 
+              rect.position[0] + rect.size[0], 
+              rect.position[1] + rect.size[1]);
+              
+    SelectObject(hdc, oldBrush);
+    DeleteObject(brush);
 }
+
+void freeRectObjectsMem() {
+    free(rectArray);
+}
+
